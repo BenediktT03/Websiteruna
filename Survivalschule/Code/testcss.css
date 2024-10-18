@@ -1,0 +1,34 @@
+html,
+body {
+  scroll-snap-type: y mandatory;
+  margin: 0;
+}
+
+section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: "space mono";
+  font-size: 12vw;
+  scroll-snap-align: start;
+}
+
+.small {
+  height: 70vh;
+}
+
+.one {
+}
+
+.two {
+}
+
+.three {
+}
+
+.four {
+}
+
+.five {
+}
