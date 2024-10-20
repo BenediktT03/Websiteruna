@@ -26,16 +26,6 @@ body {
     transition: opacity 1s; /* Weiche Einblendung */
 }
 
-.fade-in {
-    opacity: 0; /* Startet unsichtbar */
-    transform: translateY(20px); /* Leichte Verschiebung nach unten */
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Weicher Übergang */
-}
-
-.fade-in-visible {
-    opacity: 1; /* Wird sichtbar */
-    transform: translateY(0); /* Zurück zur Ausgangsposition */
-}
 
 
  
@@ -176,6 +166,9 @@ height: auto;
       transform: scale(1.2);
       
   }
+
+ 
+
   .rounded {
   list-style-type: circle;
 }

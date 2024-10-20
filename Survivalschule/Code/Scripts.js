@@ -300,3 +300,65 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
+
+// Hochgradig optimierte Scroll-Funktion mit 5 Geschwindigkeiten
+function setupUltraSmoothScroll(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    let targetPosition = 0;
+    let currentPosition = 0;
+    let velocity = 0;
+    const sectionHeight = window.innerHeight;
+
+    // Fünf verschiedene Geschwindigkeiten
+    const speeds = [0.1, 10, 1, 1.5, 2];
+
+    // Fortgeschrittene Easing-Funktion für ultra-glattes Verhalten
+    function easeOutExpo(t) {
+        return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+    }
+
+    function animate() {
+        const diff = targetPosition - currentPosition;
+        const acceleration = diff * 0.05;
+        velocity += acceleration;
+        velocity *= 0.85; // Dämpfung
+
+        currentPosition += velocity;
+
+        // Sanftes Stoppen
+        if (Math.abs(diff) < 0.1 && Math.abs(velocity) < 0.1) {
+            currentPosition = targetPosition;
+            velocity = 0;
+        }
+
+        container.scrollTop = currentPosition;
+
+        requestAnimationFrame(animate);
+    }
+
+    function handleScroll(e) {
+        e.preventDefault();
+        const delta = e.deltaY;
+        const section = Math.floor(currentPosition / sectionHeight);
+        const scrollSpeed = speeds[Math.min(section, speeds.length - 1)];
+
+        const smoothDelta = delta * scrollSpeed * 0.05; // Reduzierter Faktor für sanfteres Scrollen
+        targetPosition += smoothDelta;
+        targetPosition = Math.max(0, Math.min(targetPosition, container.scrollHeight - window.innerHeight));
+    }
+
+    container.addEventListener('wheel', handleScroll, { passive: false });
+
+    // Sanfter Start der Animation
+    requestAnimationFrame(function startAnimate(timestamp) {
+        animate();
+        requestAnimationFrame(startAnimate);
+    });
+}
+
+// Initialisierung des Scrollverhaltens
+document.addEventListener('DOMContentLoaded', function() {
+    setupUltraSmoothScroll('your-container-id');
+});
