@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  
 }
 
 /* Global Styles */
@@ -12,8 +13,7 @@ body {
     background-repeat: no-repeat;
   font-family: 'Inter Tight', sans-serif;
   background-attachment: fixed;
-  margin: 0; /* Kein Standard-Margin */
-    height: 100%; /* Höhe auf 100% setzen */
+ 
    -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
@@ -22,8 +22,9 @@ body {
  
 }
 
-
-
+.navbar {
+    display: none;
+}
  
 .text1 {
   text-align: center;
@@ -37,9 +38,6 @@ text2 {
   color: #fafafa;
   font-weight: bold;
 }
-
-
-
 .dud {
   color: #757575;
 }
@@ -62,6 +60,10 @@ text2 {
     0% {
         max-width: 0;
     }
+}
+.navbar {
+    opacity: 0; /* Ändere display auf opacity */
+    transition: opacity 1s; /* Füge die Transition hinzu */
 }
 
 
@@ -158,9 +160,6 @@ height: auto;
       transform: scale(1.2);
       
   }
-
- 
-
   .rounded {
   list-style-type: circle;
 }

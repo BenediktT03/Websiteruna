@@ -193,172 +193,36 @@ const fx2 = new TextScramble(el2, phrases2);
 fx2.startAnimation();
 
 
+
+
 document.addEventListener("DOMContentLoaded", function() {
-    const loadingScreen = document.querySelector('.loadingScreen');
+    // Navbar-Animation initialisieren
     const navbar = document.querySelector('.navbar');
-    const sections = document.querySelectorAll('.snap-section');
-    const elementsToAnimate = document.querySelectorAll('.fade-in');
+    if (navbar) {
+        navbar.style.opacity = '0'; // Setze die Anfangsopacity auf 0
+        navbar.style.transition = 'opacity 1s'; // Füge hier die Transition hinzu
+    }
 
-    // Deaktiviere das Scrollen, während die Seite lädt
-    document.body.style.overflow = 'hidden';
+    // Ladebildschirm und Scroll-Steuerung initialisieren
+    const loadingScreen = document.querySelector('.loadingscreen');
+    document.body.style.overflow = 'hidden'; // Deaktiviere Scrollen beim Laden der Seite
 
-    // Ladebildschirm ausblenden und Navbar anzeigen, wenn die Seite vollständig geladen ist
     window.onload = function() {
         if (loadingScreen) {
             loadingScreen.style.display = 'none'; // Verstecke den Ladebildschirm
         }
-
+        
         if (navbar) {
             navbar.style.opacity = '1'; // Zeige die Navbar an
         }
 
-        document.body.style.overflow = 'auto'; // Aktiviere das Scrollen nach dem Laden
-        animateOnScroll(elementsToAnimate); // Starte die Fade-in-Animation
+        document.body.style.overflow = 'auto'; // Aktiviere Scrollen nach dem Laden der Seite
     };
-
-    // Funktion zur Überwachung und Aktivierung der Fade-in-Animation
-    const animateOnScroll = (elements) => {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in-visible'); // Animation aktivieren
-                    observer.unobserve(entry.target); // Überwachung des Elements beenden
-                }
-            });
-        }, { threshold: 0.1 }); // 10% Sichtbarkeit notwendig
-
-        elements.forEach(element => {
-            observer.observe(element); // Elemente überwachen
-        });
-    };
-
-    // Funktion zum sanften Scrollen mit kontrollierter Geschwindigkeit
-    function smoothScrollTo(targetPosition, duration) {
-        const startPosition = window.pageYOffset || document.documentElement.scrollTop;
-        const distance = targetPosition - startPosition;
-        let startTime = null;
-
-        console.log(`Starte Scroll-Animation: Zielposition = ${targetPosition}, Dauer = ${duration}ms`);
-
-        // Easing-Funktion für sanftere Übergänge
-        function easingFunction(t) {
-            return t * (2 - t); // Quadratische Easing-Funktion
-        }
-
-        function animation(currentTime) {
-            if (!startTime) startTime = currentTime;
-            const timeElapsed = currentTime - startTime;
-            const progress = Math.min(timeElapsed / duration, 1); // Fortschritt bis 100%
-            const ease = easingFunction(progress); // Easing anwenden
-
-            window.scrollTo(0, startPosition + distance * ease); // Scrollen zur neuen Position
-
-            if (timeElapsed < duration) {
-                requestAnimationFrame(animation); // Fortsetzen, solange die Dauer noch nicht abgelaufen ist
-            } else {
-                console.log("Scroll-Animation abgeschlossen");
-            }
-        }
-
-        requestAnimationFrame(animation);
-    }
-
-    // Observer für Scrollgeschwindigkeit
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const sectionId = entry.target.id;
-                console.log(`Detected section: ${sectionId}`); // Debug-Ausgabe
-
-                switch (sectionId) {
-                    case 'hero-15-upeaJhOVJD':
-                        smoothScrollTo(entry.target.offsetTop, 10000); // 10 Sekunden für die Hero-Sektion
-                        break;
-                    case 'faq-3-upeaJhP621':
-                        smoothScrollTo(entry.target.offsetTop, 5000); // 5 Sekunden für FAQ-Sektion
-                        break;
-                    case 'news-1-upeaJhP8Wk':
-                        smoothScrollTo(entry.target.offsetTop, 3000); // 3 Sekunden für News-Sektion
-                        break;
-                    case 'about-us-9-upeaJhQipF':
-                        smoothScrollTo(entry.target.offsetTop, 7000); // 7 Sekunden für About Us-Sektion
-                        break;
-                    default:
-                        break;
-                }
-
-                observer.unobserve(entry.target); // Stoppe das Überwachen der Sektion
-            }
-        });
-    }, { threshold: 0.5 }); // Mindestens 50% Sichtbarkeit
-
-    // Beobachte alle Sektionen für das Scroll-Verhalten
-    sections.forEach(section => {
-        observer.observe(section);
-    });
 });
 
+ 
 
 
 
-// Hochgradig optimierte Scroll-Funktion mit 5 Geschwindigkeiten
-function setupUltraSmoothScroll(containerId) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
 
-    let targetPosition = 0;
-    let currentPosition = 0;
-    let velocity = 0;
-    const sectionHeight = window.innerHeight;
 
-    // Fünf verschiedene Geschwindigkeiten
-    const speeds = [0.1, 10, 1, 1.5, 2];
-
-    // Fortgeschrittene Easing-Funktion für ultra-glattes Verhalten
-    function easeOutExpo(t) {
-        return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
-    }
-
-    function animate() {
-        const diff = targetPosition - currentPosition;
-        const acceleration = diff * 0.05;
-        velocity += acceleration;
-        velocity *= 0.85; // Dämpfung
-
-        currentPosition += velocity;
-
-        // Sanftes Stoppen
-        if (Math.abs(diff) < 0.1 && Math.abs(velocity) < 0.1) {
-            currentPosition = targetPosition;
-            velocity = 0;
-        }
-
-        container.scrollTop = currentPosition;
-
-        requestAnimationFrame(animate);
-    }
-
-    function handleScroll(e) {
-        e.preventDefault();
-        const delta = e.deltaY;
-        const section = Math.floor(currentPosition / sectionHeight);
-        const scrollSpeed = speeds[Math.min(section, speeds.length - 1)];
-
-        const smoothDelta = delta * scrollSpeed * 0.05; // Reduzierter Faktor für sanfteres Scrollen
-        targetPosition += smoothDelta;
-        targetPosition = Math.max(0, Math.min(targetPosition, container.scrollHeight - window.innerHeight));
-    }
-
-    container.addEventListener('wheel', handleScroll, { passive: false });
-
-    // Sanfter Start der Animation
-    requestAnimationFrame(function startAnimate(timestamp) {
-        animate();
-        requestAnimationFrame(startAnimate);
-    });
-}
-
-// Initialisierung des Scrollverhaltens
-document.addEventListener('DOMContentLoaded', function() {
-    setupUltraSmoothScroll('your-container-id');
-});
