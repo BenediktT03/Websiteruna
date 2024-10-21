@@ -21,10 +21,6 @@ body {
   text-rendering: optimizeLegibility;
  
 }
-.navbar {
-    opacity: 0; /* Startet ausgeblendet */
-    transition: opacity 1s; /* Weiche Einblendung */
-}
 
 
 
@@ -66,10 +62,6 @@ text2 {
     0% {
         max-width: 0;
     }
-}
-.navbar {
-    opacity: 0; /* Ändere display auf opacity */
-    transition: opacity 1s; /* Füge die Transition hinzu */
 }
 
 
